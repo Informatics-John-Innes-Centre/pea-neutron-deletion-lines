@@ -1,0 +1,10 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - uv=0.9.25
+  - samtools=1.23
+  - vcf-validator=0.10.2
+  - tokei=14.0.0
+  - wget=1.25.0
+  - gzip=1.14

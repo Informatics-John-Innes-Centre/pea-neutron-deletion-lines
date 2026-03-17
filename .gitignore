@@ -1,0 +1,30 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+conda/
+mamba/
+merged_deletion_plots/
+unmerged_deletion_plots/
+test_unmerged/
+test_merged/
+error/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+*.vcf
+*.fasta
+*.fasta.fai
+*.fna
+*.fna.gz
+*.fa
+*.fa.gz
+*.fa.fai
+*.vcf.errors_summary.*
