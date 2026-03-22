@@ -22,7 +22,6 @@ def merge_overlapping_deletions_of_same_zygosity(
         for current in deletions[1:]:
             last = merged[-1]
             if current.start <= last.end:  # Overlap: extend if needed
-                print("Hi")
                 merged[-1].end = max(last.end, current.end)
             else:  # No overlap: add new interval
                 merged.append(Deletion(current.start, current.end, current.homozygous))
