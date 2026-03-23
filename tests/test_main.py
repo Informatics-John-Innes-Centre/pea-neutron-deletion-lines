@@ -590,3 +590,18 @@ def test_with_backwards_hemizygous_intervals() -> None:
         str(excinfo.value)
         == "Deletion set for 'test' in chromosome 'chr1' contains inverted hemizygous deletion of range 30 - 15"
     )
+
+
+def test_counter_case() -> None:
+    helper(
+        [
+            Deletion(0, 75, True),
+            Deletion(30, 50, False),
+            Deletion(30, 50, False),
+            Deletion(30, 50, False),
+        ],
+        [
+            Deletion(0, 75, True),
+        ],
+        "counter_case",
+    )
