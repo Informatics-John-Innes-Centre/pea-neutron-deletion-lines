@@ -7,6 +7,7 @@ from concurrent.futures import ProcessPoolExecutor
 import logging
 import argparse
 import time
+import os
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -18,14 +19,15 @@ def process_deletion_set(
     args: tuple[DeletionSet, DeletionSetMergerFunction, CliArgs],
 ) -> DeletionSet:
     deletion_set, deletion_set_merger, cli_args = args
+    folder = os.path.dirname(cli_args.output)
     logger.info(
         f"Merging deletion set: {deletion_set.line_sub} ({deletion_set.chromosome})"
     )
     if cli_args.plot_diagrams:
-        plot_deletion_set("unmerged_deletion_plots", deletion_set)
+        plot_deletion_set(os.path.join(folder, "unmerged_deletion_plots"), deletion_set)
     merged = deletion_set_merger(deletion_set)
     if cli_args.plot_diagrams:
-        plot_deletion_set("merged_deletion_plots", merged)
+        plot_deletion_set(os.path.join(folder, "merged_deletion_plots"), merged)
     return merged
 
 
@@ -54,12 +56,15 @@ def main() -> None:
         default=False,
         help="Plot deletion lines before and after merging",
     )
+    parser.add_argument(
+        "-o", "--output", default="output.vcf", help="Name of output vcf"
+    )
     args = parser.parse_args()
-    cli_args = CliArgs(args.plot)
+    cli_args = CliArgs(args.plot, args.output)
 
     tic = time.perf_counter()
     merged_deletion_sets = merge_deletion_sets(merge_deletion_set, cli_args)
-    write_vcf_file(merged_deletion_sets)
+    write_vcf_file(merged_deletion_sets, cli_args.output)
     toc = time.perf_counter()
     logging.info(f"Done in {toc - tic} seconds")
 

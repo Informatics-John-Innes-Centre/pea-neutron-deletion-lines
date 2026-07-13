@@ -28,3 +28,5 @@ error/
 *.fa.gz
 *.fa.fai
 *.vcf.errors_summary.*
+
+.git/

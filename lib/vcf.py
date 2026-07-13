@@ -3,6 +3,7 @@ from lib.deletion import DeletionSet, read_all_line_subs
 import subprocess
 from subprocess import CalledProcessError
 import logging
+from pathlib import Path
 
 HEADERS = f"""##fileformat=VCFv4.2
 ##ALT=<ID=DEL,Description="Deletion">
@@ -27,9 +28,11 @@ logger = logging.getLogger(__name__)
 CHROMOSOME_NAME_MAPPING = {f"chr{i + 1}": f"OZ0754{28 + i}.1" for i in range(7)}
 
 
-def write_vcf_file(merged_deletion_sets: list[DeletionSet]) -> None:
+def write_vcf_file(merged_deletion_sets: list[DeletionSet], output: str) -> None:
     logger.info("Creating VCF file...")
-    with open("output.vcf", "w") as f:
+    output_path = Path(output)
+    output_path.parent.mkdir(exist_ok=True, parents=True)
+    with output_path.open("w") as f:
         f.write(HEADERS + "\n")
         all_line_subs = read_all_line_subs()
         f.write(
